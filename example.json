@@ -20,26 +20,45 @@
       "feedback": "Why not have another try? You have used {{attemptsSpent}} of {{attempts}} attempt(s), which means you have {{attemptsLeft}} attempt(s) remaining."
     },
     "_completionBody" : "This component you're reading is a results component.<br>You have finished the assessment.<br>You scored {{{score}}} out of {{{maxScore}}}. {{{feedback}}}",
+    "_audioAssessment": {
+        "_isEnabled": true
+    },
     "_bands": [
       {
         "_score": 0,
         "feedback": "Your score was below 25%.",
-        "_allowRetry": true
+        "_allowRetry": true,
+        "_audio": {
+          "mp3": "course/en/audio/MAC_M1_04_1.mp3",
+          "ogg": "course/en/audio/MAC_M1_04_1.ogg"
+        }
       },
       {
         "_score": 25,
         "feedback": "Your score was below 50%.",
-        "_allowRetry": true
+        "_allowRetry": true,
+        "_audio": {
+          "mp3": "course/en/audio/MAC_M1_04_1.mp3",
+          "ogg": "course/en/audio/MAC_M1_04_1.ogg"
+        }
       },
       {
         "_score": 50,
         "feedback": "Good effort, but your score was under 75%.",
-        "_allowRetry": true
+        "_allowRetry": true,
+        "_audio": {
+          "mp3": "course/en/audio/MAC_M1_04_1.mp3",
+          "ogg": "course/en/audio/MAC_M1_04_1.ogg"
+        }
       },
       {
         "_score": 75,
         "feedback": "Great work. You passed your assessment with {{{scoreAsPercent}}}%.",
-        "_allowRetry": false
+        "_allowRetry": false,
+        "_audio": {
+          "mp3": "course/en/audio/MAC_M1_04_1.mp3",
+          "ogg": "course/en/audio/MAC_M1_04_1.ogg"
+        }
       }
     ]
   },
