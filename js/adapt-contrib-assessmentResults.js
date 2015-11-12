@@ -122,7 +122,7 @@ define(function(require) {
                     this.$el.off("inview");
 
                     ///// Audio /////
-                    if (this.model.get('_audioAssessment')) {
+                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
                         Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.model.get('_audioAssessment')._channel);
                     }
                     ///// End of Audio /////
@@ -154,7 +154,7 @@ define(function(require) {
             this.model.set("body", completionBody);
 
             ///// Audio /////
-            if (this.model.get('_audioAssessment')) {
+            if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
                 // Determine which file to play
                 if (Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].canPlayType('audio/ogg')) this.audioFile = state.feedbackBand._audio.ogg;
                 if (Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].canPlayType('audio/mpeg')) this.audioFile = state.feedbackBand._audio.mp3;
