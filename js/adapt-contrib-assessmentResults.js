@@ -7,11 +7,16 @@ define(function(require) {
 
         events: {
             'inview': 'onInview',
-            'click .results-retry-button button': 'onRetry'
+            'click .results-retry-button button': 'onRetry',
+            'click .audio-toggle': 'toggleAudio'
         },
 
         preRender: function () {
             if (this.model.setLocking) this.model.setLocking("_isVisible", false);
+
+            // Set vars
+            this.audioChannel = this.model.get("_audioAssessment")._channel;
+            this.elementId = this.model.get("_id");
 
             this.setupEventListeners();
             this.setupModelResetEvent();
@@ -122,12 +127,22 @@ define(function(require) {
                     this.$el.off("inview");
 
                     ///// Audio /////
-                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
+                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled && Adapt.audio.autoPlayGlobal && this.model.get("_audioAssessment")._autoplay) {
                         Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.model.get('_audioAssessment')._channel);
                     }
                     ///// End of Audio /////
 
                 }
+            }
+        },
+
+        toggleAudio: function(event) {
+            if (event) event.preventDefault();
+ 
+            if ($(event.currentTarget).hasClass('playing')) {
+                Adapt.trigger('audio:pauseAudio', this.audioChannel);
+            } else {
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
         },
 
