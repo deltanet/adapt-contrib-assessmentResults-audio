@@ -170,14 +170,8 @@ define(function(require) {
 
             ///// Audio /////
             if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
-                // Determine which file to play
-                try {
-                    if (Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].canPlayType('audio/ogg')) this.audioFile = state.feedbackBand._audio.ogg;
-                    if (Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].canPlayType('audio/mpeg')) this.audioFile = state.feedbackBand._audio.mp3;
-                } catch(e) {
-                   console.log('There is an error loading the audio.') 
-                }
 
+                this.audioFile = state.feedbackBand._audio.src;
             }
             ///// End of Audio /////
 
