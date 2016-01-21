@@ -106,7 +106,7 @@ define(function(require) {
             this.model.set("_state", state);
             this.setFeedback();
 
-             //show feedback component
+            //show feedback component
             if(!this.model.get('_isVisible')) this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
             this.render();
         },
@@ -128,10 +128,12 @@ define(function(require) {
 
                     ///// Audio /////
                     if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled && Adapt.audio.autoPlayGlobal && this.model.get("_audioAssessment")._autoplay) {
-                        Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.model.get('_audioAssessment')._channel);
+                        // If audio is turned on
+                        if(Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].status==1){
+                            Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.model.get('_audioAssessment')._channel);
+                        }
                     }
                     ///// End of Audio /////
-
                 }
             }
         },
