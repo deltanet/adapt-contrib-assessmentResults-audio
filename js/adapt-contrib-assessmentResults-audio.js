@@ -7,11 +7,16 @@ define(function(require) {
 
         events: {
             'inview': 'onInview',
-            'click .results-retry-button button': 'onRetry'
+            'click .results-retry-button button': 'onRetry',
+            'click .audio-toggle': 'toggleAudio'
         },
 
         preRender: function () {
             if (this.model.setLocking) this.model.setLocking("_isVisible", false);
+
+            // Set vars
+            this.audioChannel = this.model.get("_audioAssessment")._channel;
+            this.elementId = this.model.get("_id");
 
             this.setupEventListeners();
             this.setupModelResetEvent();
@@ -101,7 +106,7 @@ define(function(require) {
             this.model.set("_state", state);
             this.setFeedback();
 
-             //show feedback component
+            //show feedback component
             if(!this.model.get('_isVisible')) this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
             this.render();
         },
@@ -122,12 +127,24 @@ define(function(require) {
                     this.$el.off("inview");
 
                     ///// Audio /////
-                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
-                        Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.model.get('_audioAssessment')._channel);
+                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled && Adapt.audio.autoPlayGlobal && this.model.get("_audioAssessment")._autoplay) {
+                        // If audio is turned on
+                        if(Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].status==1){
+                            Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.model.get('_audioAssessment')._channel);
+                        }
                     }
                     ///// End of Audio /////
-
                 }
+            }
+        },
+
+        toggleAudio: function(event) {
+            if (event) event.preventDefault();
+ 
+            if ($(event.currentTarget).hasClass('playing')) {
+                Adapt.trigger('audio:pauseAudio', this.audioChannel);
+            } else {
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
         },
 
@@ -155,14 +172,8 @@ define(function(require) {
 
             ///// Audio /////
             if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
-                // Determine which file to play
-                try {
-                    if (Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].canPlayType('audio/ogg')) this.audioFile = state.feedbackBand._audio.ogg;
-                    if (Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].canPlayType('audio/mpeg')) this.audioFile = state.feedbackBand._audio.mp3;
-                } catch(e) {
-                   console.log('There is an error loading the audio.') 
-                }
 
+                this.audioFile = state.feedbackBand._audio.src;
             }
             ///// End of Audio /////
 
@@ -171,11 +182,10 @@ define(function(require) {
         getFeedbackBand: function() {
             var state = this.model.get("_state");
 
-            var bands = this.model.get("_bands");
-            var scoreAsPercent = state.scoreAsPercent;
+            var bands = _.sortBy(this.model.get("_bands"), '_score');
             
             for (var i = (bands.length - 1); i >= 0; i--) {
-                if (scoreAsPercent >= bands[i]._score) {
+                if (state.scoreAsPercent >= bands[i]._score) {
                     return bands[i];
                 }
             }

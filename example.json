@@ -11,9 +11,6 @@
     "body":"This component you're reading is a results component.",
     "instruction":"",
     "_isVisibleBeforeCompletion": true,
-    "_pageLevelProgress": {
-      "_isEnabled": true
-    },
     "_assessmentId": "Assessment 1",
     "_retry": {
       "button": "Retry Assessment",
@@ -21,7 +18,11 @@
     },
     "_completionBody" : "This component you're reading is a results component.<br>You have finished the assessment.<br>You scored {{{score}}} out of {{{maxScore}}}. {{{feedback}}}",
     "_audioAssessment": {
-        "_isEnabled": true
+      "_isEnabled": true,
+      "_showControls": true,
+      "_autoplay": true,
+      "_channel": 0,
+      "_location": "top-right"
     },
     "_bands": [
       {
@@ -29,8 +30,7 @@
         "feedback": "Your score was below 25%.",
         "_allowRetry": true,
         "_audio": {
-          "mp3": "course/en/audio/MAC_M1_04_1.mp3",
-          "ogg": "course/en/audio/MAC_M1_04_1.ogg"
+          "src": "course/en/audio/***.mp3"
         }
       },
       {
@@ -38,8 +38,7 @@
         "feedback": "Your score was below 50%.",
         "_allowRetry": true,
         "_audio": {
-          "mp3": "course/en/audio/MAC_M1_04_1.mp3",
-          "ogg": "course/en/audio/MAC_M1_04_1.ogg"
+          "src": "course/en/audio/***.mp3"
         }
       },
       {
@@ -47,8 +46,7 @@
         "feedback": "Good effort, but your score was under 75%.",
         "_allowRetry": true,
         "_audio": {
-          "mp3": "course/en/audio/MAC_M1_04_1.mp3",
-          "ogg": "course/en/audio/MAC_M1_04_1.ogg"
+          "src": "course/en/audio/***.mp3"
         }
       },
       {
@@ -56,11 +54,13 @@
         "feedback": "Great work. You passed your assessment with {{{scoreAsPercent}}}%.",
         "_allowRetry": false,
         "_audio": {
-          "mp3": "course/en/audio/MAC_M1_04_1.mp3",
-          "ogg": "course/en/audio/MAC_M1_04_1.ogg"
+          "src": "course/en/audio/***.mp3"
         }
       }
-    ]
+    ],
+    "_pageLevelProgress": {
+      "_isEnabled": true
+    }
   },
 
 /*
