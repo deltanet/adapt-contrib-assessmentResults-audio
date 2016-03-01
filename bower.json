@@ -1,16 +1,16 @@
 {
-  "name": "adapt-contrib-assessmentResults",
+  "name": "adapt-contrib-assessmentResults-audio",
   "version": "2.0.1",
   "framework": "^2.0.0",
   "homepage": "https://github.com/deltanet/adapt-contrib-assessmentResults-audio",
   "issues": "https://github.com/deltanet/adapt-contrib-assessmentResults-audio/issues",
-  "displayName" : "Assessment Results",
-  "component" : "assessmentResults",
-  "description": "A component used to display a single assessment's results",
-  "main": "/js/adapt-contrib-assessmentResults.js",
+  "displayName" : "Assessment Results Audio",
+  "component" : "assessmentResultsAudio",
+  "description": "A audio enabled component used to display a single assessment's results",
+  "main": "/js/adapt-contrib-assessmentResults-audio.js",
   "keywords": [
     "adapt-plugin",
     "adapt-component"
   ],
-  "license": "GPLv3"
+  "license": "GPL-3.0"
 }

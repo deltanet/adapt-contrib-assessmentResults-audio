@@ -3,7 +3,7 @@ define(function(require) {
     var ComponentView = require('coreViews/componentView');
     var Adapt = require('coreJS/adapt');
 
-    var AssessmentResults = ComponentView.extend({
+    var AssessmentResultsAudio = ComponentView.extend({
 
         events: {
             'inview': 'onInview',
@@ -248,6 +248,6 @@ define(function(require) {
         
     });
     
-    Adapt.register("assessmentResults", AssessmentResults);
+    Adapt.register("assessmentResultsAudio", AssessmentResultsAudio);
     
 });
