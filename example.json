@@ -3,7 +3,7 @@
     "_id":"c-130",
     "_parentId":"b-31",
     "_type":"component",
-    "_component":"assessmentResults",
+    "_component":"assessmentResultsAudio",
     "_classes":"",
     "_layout":"full",
     "title":"Results",
