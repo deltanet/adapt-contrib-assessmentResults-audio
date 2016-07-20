@@ -17,34 +17,42 @@ define(function(require) {
             // Set vars
             this.audioChannel = this.model.get("_audioAssessment")._channel;
             this.elementId = this.model.get("_id");
-
+            this.saveOriginalTexts();
             this.setupEventListeners();
             this.setupModelResetEvent();
             this.checkIfComplete();
             this.checkIfVisible();
         },
 
+        saveOriginalTexts: function() {
+            this.model.set({
+                "originalTitle": this.model.get("title"),
+                "originalBody": this.model.get("body"),
+                "originalInstruction": this.model.get("instruction")
+            });
+        },
+
         checkIfVisible: function() {
+
+            if (!Adapt.assessment) {
+                return false;
+            }
 
             var isVisibleBeforeCompletion = this.model.get("_isVisibleBeforeCompletion") || false;
             var isVisible = false;
 
             var wasVisible = this.model.get("_isVisible");
 
-            if (!isVisibleBeforeCompletion) {
+            var assessmentModel = Adapt.assessment.get(this.model.get("_assessmentId"));
+            if (!assessmentModel || assessmentModel.length === 0) return;
 
-                var assessmentModel = Adapt.assessment.get(this.model.get("_assessmentId"));
-                if (!assessmentModel || assessmentModel.length === 0) return;
+            var state = assessmentModel.getState();
+            var isComplete = state.isComplete;
+            var isAttemptInProgress = state.attemptInProgress;
+            var attemptsSpent = state.attemptsSpent;
+            var hasHadAttempt = (!isAttemptInProgress && attemptsSpent > 0);
 
-                var state = assessmentModel.getState();
-                var isComplete = state.isComplete;
-                var isAttemptInProgress = state.attemptInProgress;
-                var attemptsSpent = state.attemptsSpent;
-                var hasHadAttempt = (!isAttemptInProgress && attemptsSpent > 0);
-                
-                isVisible = (isVisibleBeforeCompletion && !isComplete) || hasHadAttempt;
-
-            }
+            isVisible = (isVisibleBeforeCompletion && !isComplete) || hasHadAttempt;
 
             if (!wasVisible && isVisible) isVisible = false;
 
@@ -52,6 +60,11 @@ define(function(require) {
         },
 
         checkIfComplete: function() {
+
+            if (!Adapt.assessment) {
+                return false;
+            }
+
             var assessmentModel = Adapt.assessment.get(this.model.get("_assessmentId"));
             if (!assessmentModel || assessmentModel.length === 0) return;
 
@@ -67,7 +80,7 @@ define(function(require) {
         setupModelResetEvent: function() {
             if (this.model.onAssessmentsReset) return;
             this.model.onAssessmentsReset = function(state) {
-                if (this.get("_assessmentId") === undefined || 
+                if (this.get("_assessmentId") === undefined ||
                     this.get("_assessmentId") != state.id) return;
 
                 this.reset('hard', true);
@@ -90,25 +103,37 @@ define(function(require) {
         },
 
         onAssessmentsComplete: function(state) {
-            if (this.model.get("_assessmentId") === undefined || 
+            if (this.model.get("_assessmentId") === undefined ||
                 this.model.get("_assessmentId") != state.id) return;
 
             this.model.set("_state", state);
-            this.setFeedback();
 
-            //show feedback component
+            var feedbackBand = this.getFeedbackBand();
+
+            this.setFeedback(feedbackBand);
+
+            this.addClassesToArticle(feedbackBand);
+
             this.render();
-            if(!this.model.get('_isVisible')) this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
-            
+
+            this.show();
         },
 
         onAssessmentComplete: function(state) {
             this.model.set("_state", state);
-            this.setFeedback();
+
+            var feedbackBand = this.getFeedbackBand();
+
+            this.setFeedback(feedbackBand);
+
+            this.addClassesToArticle(feedbackBand);
 
             //show feedback component
             if(!this.model.get('_isVisible')) this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
+
             this.render();
+
+            this.show();
         },
 
         onInview: function(event, visible, visiblePartX, visiblePartY) {
@@ -121,7 +146,7 @@ define(function(require) {
                     this._isVisibleTop = true;
                     this._isVisibleBottom = true;
                 }
-                
+
                 if (this._isVisibleTop || this._isVisibleBottom) {
                     this.setCompletionStatus();
                     this.$el.off("inview");
@@ -140,7 +165,7 @@ define(function(require) {
 
         toggleAudio: function(event) {
             if (event) event.preventDefault();
- 
+
             if ($(event.currentTarget).hasClass('playing')) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             } else {
@@ -152,13 +177,28 @@ define(function(require) {
             var state = this.model.get("_state");
             var assessmentModel = Adapt.assessment.get(state.id);
 
+            this.restoreOriginalTexts();
+
             assessmentModel.reset();
         },
 
-        setFeedback: function() {
+        restoreOriginalTexts: function() {
+            this.model.set({
+                "title": this.model.get("originalTitle"),
+                "body": this.model.get("originalBody"),
+                "instruction": this.model.get("originalInstruction")
+            });
+        },
+
+        show: function() {
+             if(!this.model.get('_isVisible')) {
+                 this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
+             }
+        },
+
+        setFeedback: function(feedbackBand) {
 
             var completionBody = this.model.get("_completionBody");
-            var feedbackBand = this.getFeedbackBand();
 
             var state = this.model.get("_state");
             state.feedbackBand = feedbackBand;
@@ -179,11 +219,22 @@ define(function(require) {
 
         },
 
+        /**
+         * If there are classes specified for the feedback band, apply them to the containing article
+         * This allows for custom styling based on the band the user's score falls into
+         */
+        addClassesToArticle: function(feedbackBand) {
+
+            if(!feedbackBand.hasOwnProperty('_classes')) return;
+
+            this.$el.parents('.article').addClass(feedbackBand._classes);
+        },
+
         getFeedbackBand: function() {
             var state = this.model.get("_state");
 
             var bands = _.sortBy(this.model.get("_bands"), '_score');
-            
+
             for (var i = (bands.length - 1); i >= 0; i--) {
                 if (state.scoreAsPercent >= bands[i]._score) {
                     return bands[i];
@@ -255,9 +306,9 @@ define(function(require) {
 
             this.removeEventListeners();
         }
-        
+
     });
-    
+
     Adapt.register("assessmentResultsAudio", AssessmentResultsAudio);
-    
+
 });
