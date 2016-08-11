@@ -3,18 +3,21 @@ define(function(require) {
     var ComponentView = require('coreViews/componentView');
     var Adapt = require('coreJS/adapt');
 
-    var AssessmentResults = ComponentView.extend({
+    var AssessmentResultsAudio = ComponentView.extend({
 
         events: {
             'inview': 'onInview',
-            'click .results-retry-button button': 'onRetry'
+            'click .results-retry-button button': 'onRetry',
+            'click .audio-toggle': 'toggleAudio'
         },
 
         preRender: function () {
             if (this.model.setLocking) this.model.setLocking("_isVisible", false);
 
+            // Set vars
+            this.audioChannel = this.model.get("_audioAssessment")._channel;
+            this.elementId = this.model.get("_id");
             this.saveOriginalTexts();
-
             this.setupEventListeners();
             this.setupModelResetEvent();
             this.checkIfComplete();
@@ -30,7 +33,7 @@ define(function(require) {
         },
 
         checkIfVisible: function() {
-            
+
             if (!Adapt.assessment) {
                 return false;
             }
@@ -48,7 +51,7 @@ define(function(require) {
             var isAttemptInProgress = state.attemptInProgress;
             var attemptsSpent = state.attemptsSpent;
             var hasHadAttempt = (!isAttemptInProgress && attemptsSpent > 0);
-            
+
             isVisible = (isVisibleBeforeCompletion && !isComplete) || hasHadAttempt;
 
             if (!wasVisible && isVisible) isVisible = false;
@@ -57,7 +60,7 @@ define(function(require) {
         },
 
         checkIfComplete: function() {
-            
+
             if (!Adapt.assessment) {
                 return false;
             }
@@ -77,7 +80,7 @@ define(function(require) {
         setupModelResetEvent: function() {
             if (this.model.onAssessmentsReset) return;
             this.model.onAssessmentsReset = function(state) {
-                if (this.get("_assessmentId") === undefined || 
+                if (this.get("_assessmentId") === undefined ||
                     this.get("_assessmentId") != state.id) return;
 
                 this.reset('hard', true);
@@ -100,33 +103,36 @@ define(function(require) {
         },
 
         onAssessmentsComplete: function(state) {
-            if (this.model.get("_assessmentId") === undefined || 
+            if (this.model.get("_assessmentId") === undefined ||
                 this.model.get("_assessmentId") != state.id) return;
 
             this.model.set("_state", state);
-            
+
             var feedbackBand = this.getFeedbackBand();
-            
+
             this.setFeedback(feedbackBand);
-            
+
             this.addClassesToArticle(feedbackBand);
 
             this.render();
-            
+
             this.show();
         },
 
         onAssessmentComplete: function(state) {
             this.model.set("_state", state);
-            
+
             var feedbackBand = this.getFeedbackBand();
-            
+
             this.setFeedback(feedbackBand);
-            
+
             this.addClassesToArticle(feedbackBand);
 
+            //show feedback component
+            if(!this.model.get('_isVisible')) this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
+
             this.render();
-            
+
             this.show();
         },
 
@@ -140,11 +146,30 @@ define(function(require) {
                     this._isVisibleTop = true;
                     this._isVisibleBottom = true;
                 }
-                
+
                 if (this._isVisibleTop || this._isVisibleBottom) {
                     this.setCompletionStatus();
                     this.$el.off("inview");
+
+                    ///// Audio /////
+                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled && Adapt.audio.autoPlayGlobal && this.model.get("_audioAssessment")._autoplay) {
+                        // If audio is turned on
+                        if(Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].status==1){
+                            Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.model.get('_audioAssessment')._channel);
+                        }
+                    }
+                    ///// End of Audio /////
                 }
+            }
+        },
+
+        toggleAudio: function(event) {
+            if (event) event.preventDefault();
+
+            if ($(event.currentTarget).hasClass('playing')) {
+                Adapt.trigger('audio:pauseAudio', this.audioChannel);
+            } else {
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
         },
 
@@ -164,7 +189,7 @@ define(function(require) {
                 "instruction": this.model.get("originalInstruction")
             });
         },
-        
+
         show: function() {
              if(!this.model.get('_isVisible')) {
                  this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
@@ -185,16 +210,23 @@ define(function(require) {
 
             this.model.set("body", completionBody);
 
+            ///// Audio /////
+            if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
+
+                this.audioFile = state.feedbackBand._audio.src;
+            }
+            ///// End of Audio /////
+
         },
-        
+
         /**
          * If there are classes specified for the feedback band, apply them to the containing article
          * This allows for custom styling based on the band the user's score falls into
          */
         addClassesToArticle: function(feedbackBand) {
-            
+
             if(!feedbackBand.hasOwnProperty('_classes')) return;
-            
+
             this.$el.parents('.article').addClass(feedbackBand._classes);
         },
 
@@ -202,7 +234,7 @@ define(function(require) {
             var state = this.model.get("_state");
             var scoreProp = state.isPercentageBased ? 'scoreAsPercent' : 'score';
             var bands = _.sortBy(this.model.get("_bands"), '_score');
-            
+
             for (var i = (bands.length - 1); i >= 0; i--) {
                 if (state[scoreProp] >= bands[i]._score) {
                     return bands[i];
@@ -274,9 +306,9 @@ define(function(require) {
 
             this.removeEventListeners();
         }
-        
+
     });
-    
-    Adapt.register("assessmentResults", AssessmentResults);
-    
+
+    Adapt.register("assessmentResultsAudio", AssessmentResultsAudio);
+
 });
