@@ -74,6 +74,19 @@
       "help": "This text overwrites the standard body attribute upon completion of the assessment. It may make use of the following variables: {{attemptsSpent}}, {{attempts}}, {{attemptsLeft}}, {{{score}}}, {{{maxScore}}}. {{{feedback}}}, representing the feedback assigned to the appropriate band, is also allowed.",
       "translatable": true
     },
+    "_audioAssessment": {
+      "type":"object",
+      "required":false,
+      "properties":{
+        "_isEnabled": {
+          "type":"boolean",
+          "required":false,
+          "title": "Audio Enabled",
+          "inputType": { "type": "Boolean", "options": [false, true]},
+          "validators": []
+        }
+      }
+    },
     "_bands": {
       "type":"array",
       "required":true,
@@ -105,14 +118,21 @@
             "title": "Allow Retry",
             "inputType": {"type": "Boolean", "options": [true, false]},
             "validators": []
-	  },
-	  "_classes": {
-	    "type": "string",
+          },
+          "_audio": {
+            "type": "object",
             "required": false,
-            "default": "",
-            "inputType": "Text",
-            "validators": [],
-            "help": "Classes to be applied to the containing article; allows for custom styling based on the band the user's score falls into."
+            "title": "Audio",
+            "properties":{
+              "src": {
+                "type": "string",
+                "required": false,
+                "default": "",
+                "inputType": "Asset:audio",
+                "validators": [],
+                "help": "Optional audio which will be played with this bands feedback text"
+              }
+            }
           }
         }
       }
