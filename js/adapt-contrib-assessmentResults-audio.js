@@ -307,20 +307,13 @@ define(function(require) {
 
             this.removeEventListeners();
         }
-<<<<<<< HEAD:js/adapt-contrib-assessmentResults.js
         
     }, {
-        template: 'assessmentResults'
+        template: 'assessmentResultsAudio'
     });
     
-    Adapt.register("assessmentResults", AssessmentResults);
-    
-    return AssessmentResults;
-=======
-
-    });
-
     Adapt.register("assessmentResultsAudio", AssessmentResultsAudio);
+    
+    return AssessmentResultsAudio;
 
->>>>>>> refs/remotes/origin/master:js/adapt-contrib-assessmentResults-audio.js
 });
