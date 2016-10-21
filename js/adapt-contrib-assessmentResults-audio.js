@@ -136,6 +136,8 @@ define(function(require) {
 
             this.render();
 
+            this.setFeedback(feedbackBand);
+
             this.show();
         },
 
