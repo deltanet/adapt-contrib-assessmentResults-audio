@@ -102,6 +102,7 @@ define(function(require) {
         removeEventListeners: function() {
             this.stopListening(Adapt, 'assessments:complete', this.onAssessmentsComplete);
             this.stopListening(Adapt, 'remove', this.onRemove);
+            this.$el.off("inview");
         },
 
         onAssessmentsComplete: function(state) {
@@ -151,7 +152,6 @@ define(function(require) {
 
                 if (this._isVisibleTop || this._isVisibleBottom) {
                     this.setCompletionStatus();
-                    this.$el.off("inview");
 
                     ///// Audio /////
                     if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled && Adapt.audio.autoPlayGlobal && this.model.get("_audioAssessment")._autoplay) {
@@ -307,13 +307,13 @@ define(function(require) {
 
             this.removeEventListeners();
         }
-        
+
     }, {
         template: 'assessmentResultsAudio'
     });
-    
+
     Adapt.register("assessmentResultsAudio", AssessmentResultsAudio);
-    
+
     return AssessmentResultsAudio;
 
 });
