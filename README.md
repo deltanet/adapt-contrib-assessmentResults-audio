@@ -65,7 +65,7 @@ In the image to the right, numbers are paired with the text's source attributes 
 No known limitations.  
 
 ----------------------------
-**Version number:**  2.0.8  
+**Version number:**  2.0.9  
 **Framework versions:** 2.0  
 **Author / maintainer:** DeltaNet, forked from [adapt-contrib-assessmentResults](https://github.com/adaptlearning/adapt-contrib-assessmentResults)    
 **Accessibility support:** WAI AA   
