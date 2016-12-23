@@ -17,13 +17,31 @@ define(function(require) {
             // Set vars
             this.audioChannel = this.model.get("_audioAssessment")._channel;
             this.elementId = this.model.get("_id");
+            this.audioIcon = Adapt.audio.iconPlay;
             this.audioFile = this.model.get("_audioAssessment")._media.src;
-            this.autoplayOnce = this.model.get('_audioAssessment')._autoPlayOnce;
 
-            if(Adapt.audio && Adapt.audio.autoPlayGlobal && this.model.get("_audioAssessment")._autoplay){
-              this.canAutoplay = true;
+            // Autoplay
+            if(Adapt.audio.autoPlayGlobal || this.model.get("_audioAssessment")._autoplay){
+                this.canAutoplay = true;
             } else {
-              this.canAutoplay = false;
+                this.canAutoplay = false;
+            }
+
+            // Autoplay once
+            if(Adapt.audio.autoPlayOnceGlobal == false){
+                this.autoplayOnce = false;
+            } else if(Adapt.audio.autoPlayOnceGlobal || this.model.get("_audioAssessment")._autoPlayOnce){
+                this.autoplayOnce = true;
+            } else {
+              this.autoplayOnce = false;
+            }
+
+            // Add audio icon
+            this.$('.audio-toggle').addClass(this.audioIcon);
+
+            // Hide controls if set in JSON or if audio is turned off
+            if(this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
+                this.$('.audio-inner button').hide();
             }
 
             this.saveOriginalTexts();
@@ -163,10 +181,10 @@ define(function(require) {
                     this.setCompletionStatus();
 
                     ///// Audio /////
-                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled && Adapt.audio.autoPlayGlobal && this.model.get("_audioAssessment")._autoplay) {
+                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
                         // If audio is turned on
                         if(Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].status==1){
-                            Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.model.get('_audioAssessment')._channel);
+                            Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                         }
                     }
                     ///// End of Audio /////
@@ -181,7 +199,7 @@ define(function(require) {
 
         toggleAudio: function(event) {
             if (event) event.preventDefault();
-
+            Adapt.audio.audioClip[this.audioChannel].onscreenID = "";
             if ($(event.currentTarget).hasClass('playing')) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             } else {
