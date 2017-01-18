@@ -14,34 +14,11 @@ define(function(require) {
         preRender: function () {
             if (this.model.setLocking) this.model.setLocking("_isVisible", false);
 
-            // Set vars
-            this.audioChannel = this.model.get("_audioAssessment")._channel;
-            this.elementId = this.model.get("_id");
-            this.audioIcon = Adapt.audio.iconPlay;
-            this.audioFile = this.model.get("_audioAssessment")._media.src;
+            this.audioIsEnabled = false;
 
-            // Autoplay
-            if(Adapt.audio.autoPlayGlobal || this.model.get("_audioAssessment")._autoplay){
-                this.canAutoplay = true;
-            } else {
-                this.canAutoplay = false;
-            }
-
-            // Autoplay once
-            if(Adapt.audio.autoPlayOnceGlobal == false){
-                this.autoplayOnce = false;
-            } else if(Adapt.audio.autoPlayOnceGlobal || this.model.get("_audioAssessment")._autoPlayOnce){
-                this.autoplayOnce = true;
-            } else {
-              this.autoplayOnce = false;
-            }
-
-            // Add audio icon
-            this.$('.audio-toggle').addClass(this.audioIcon);
-
-            // Hide controls if set in JSON or if audio is turned off
-            if(this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
-                this.$('.audio-inner button').hide();
+            if(Adapt.course.get('_audio') && Adapt.course.get('_audio')._isEnabled && this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
+              this.setupAudio();
+              this.audioIsEnabled = true;
             }
 
             this.saveOriginalTexts();
@@ -57,6 +34,38 @@ define(function(require) {
                 "originalBody": this.model.get("body"),
                 "originalInstruction": this.model.get("instruction")
             });
+        },
+
+        setupAudio: function() {
+          // Set vars
+          this.audioChannel = this.model.get("_audioAssessment")._channel;
+          this.elementId = this.model.get("_id");
+          this.audioIcon = Adapt.audio.iconPlay;
+          this.audioFile = this.model.get("_audioAssessment")._media.src;
+
+          // Autoplay
+          if(Adapt.audio.autoPlayGlobal || this.model.get("_audioAssessment")._autoplay){
+              this.canAutoplay = true;
+          } else {
+              this.canAutoplay = false;
+          }
+
+          // Autoplay once
+          if(Adapt.audio.autoPlayOnceGlobal == false){
+              this.autoplayOnce = false;
+          } else if(Adapt.audio.autoPlayOnceGlobal || this.model.get("_audioAssessment")._autoPlayOnce){
+              this.autoplayOnce = true;
+          } else {
+            this.autoplayOnce = false;
+          }
+
+          // Add audio icon
+          this.$('.audio-toggle').addClass(this.audioIcon);
+
+          // Hide controls if set in JSON or if audio is turned off
+          if(this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
+              this.$('.audio-inner button').hide();
+          }
         },
 
         checkIfVisible: function() {
@@ -181,7 +190,7 @@ define(function(require) {
                     this.setCompletionStatus();
 
                     ///// Audio /////
-                    if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
+                    if (this.audioIsEnabled) {
                         // If audio is turned on
                         if(Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].status==1){
                             Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
@@ -245,7 +254,7 @@ define(function(require) {
             this.model.set("body", completionBody);
 
             ///// Audio /////
-            if (this.model.has('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
+            if (this.audioIsEnabled) {
                 this.audioFile = state.feedbackBand._audio.src;
             }
             ///// End of Audio /////
