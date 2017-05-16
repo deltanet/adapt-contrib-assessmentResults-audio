@@ -6,7 +6,7 @@
   "issues": "https://github.com/deltanet/adapt-contrib-assessmentResults-audio/issues",
   "displayName" : "Assessment Results Audio",
   "component" : "assessmentResultsAudio",
-  "description": "A audio enabled component used to display a single assessment's results",
+  "description": "An audio enabled component used to display a single assessment's results",
   "main": "/js/adapt-contrib-assessmentResults-audio.js",
   "keywords": [
     "adapt-plugin",
