@@ -40,7 +40,6 @@ define(function(require) {
           // Set vars
           this.audioChannel = this.model.get("_audioAssessment")._channel;
           this.elementId = this.model.get("_id");
-          this.audioIcon = Adapt.audio.iconPlay;
           this.audioFile = this.model.get("_audioAssessment")._media.src;
 
           // Autoplay
@@ -58,9 +57,6 @@ define(function(require) {
           } else {
             this.autoplayOnce = false;
           }
-
-          // Add audio icon
-          this.$('.audio-toggle').addClass(this.audioIcon);
 
           // Hide controls if set in JSON or if audio is turned off
           if(this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
