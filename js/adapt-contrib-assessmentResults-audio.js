@@ -1,7 +1,7 @@
-define(function(require) {
-
-    var ComponentView = require('coreViews/componentView');
-    var Adapt = require('coreJS/adapt');
+define([
+    'core/js/adapt',
+    'core/js/views/componentView'
+], function(Adapt, ComponentView) {
 
     var AssessmentResultsAudio = ComponentView.extend({
 
@@ -23,8 +23,11 @@ define(function(require) {
 
             this.saveOriginalTexts();
             this.setupEventListeners();
+
             this.setupModelResetEvent();
+
             this.checkIfComplete();
+
             this.checkIfVisible();
         },
 
@@ -101,8 +104,7 @@ define(function(require) {
             if (!assessmentModel || assessmentModel.length === 0) return;
 
             var state = assessmentModel.getState();
-            var isComplete = state.isComplete;
-            if (isComplete) {
+            if (state.isComplete) {
                 this.onAssessmentsComplete(state);
             } else {
                 this.model.reset('hard', true);
@@ -197,6 +199,12 @@ define(function(require) {
                     // Set to false to stop autoplay when inview again
                     if(this.autoplayOnce) {
                       this.canAutoplay = false;
+
+                    // Sometimes (with mobile and virtual keyboards) inview can be triggered
+                    // but the component is not _visible = true, so it does not get marked
+                    // complete. Delay the unbinding of the inview listener until complete
+                    if (this.model.get('_isComplete')) {
+                        this.$el.off("inview");
                     }
                 }
             }
@@ -230,9 +238,9 @@ define(function(require) {
         },
 
         show: function() {
-             if(!this.model.get('_isVisible')) {
-                 this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
-             }
+            if(!this.model.get('_isVisible')) {
+                this.model.set('_isVisible', true, {pluginName: "assessmentResults"});
+            }
         },
 
         setFeedback: function(feedbackBand) {
@@ -315,11 +323,11 @@ define(function(require) {
                     var contextValue = context[k];
 
                     switch (typeof contextValue) {
-                    case "object":
-                        continue;
-                    case "number":
-                        contextValue = Math.floor(contextValue);
-                        break;
+                        case "object":
+                            continue;
+                        case "number":
+                            contextValue = Math.floor(contextValue);
+                            break;
                     }
 
                     var regExNoEscaping = new RegExp("((\\{\\{\\{){1}[\\ ]*"+k+"[\\ ]*(\\}\\}\\}){1})","g");
