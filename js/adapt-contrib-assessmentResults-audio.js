@@ -174,7 +174,7 @@ define([
         },
 
         onInview: function(event, visible, visiblePartX, visiblePartY) {
-            if (visible && this.canAutoplay) {
+            if (visible) {
                 if (visiblePartY === 'top') {
                     this._isVisibleTop = true;
                 } else if (visiblePartY === 'bottom') {
@@ -188,7 +188,7 @@ define([
                     this.setCompletionStatus();
 
                     ///// Audio /////
-                    if (this.audioIsEnabled) {
+                    if (this.audioIsEnabled && this.canAutoplay) {
                         // If audio is turned on
                         if(Adapt.audio.audioClip[this.model.get('_audioAssessment')._channel].status==1){
                             Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
@@ -199,6 +199,7 @@ define([
                     // Set to false to stop autoplay when inview again
                     if(this.autoplayOnce) {
                       this.canAutoplay = false;
+                    }
 
                     // Sometimes (with mobile and virtual keyboards) inview can be triggered
                     // but the component is not _visible = true, so it does not get marked
