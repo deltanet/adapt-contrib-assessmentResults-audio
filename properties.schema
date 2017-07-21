@@ -81,43 +81,43 @@
       "properties":{
         "_isEnabled": {
           "type":"boolean",
-          "required":false,
+          "required": false,
           "default": false,
-          "title": "Audio Enabled",
-          "inputType": { "type": "Boolean", "options": [false, true]},
+          "title": "Audio Is Enabled",
+          "inputType": "Checkbox",
           "validators": [],
           "help": "Enables Audio on the Component."
         },
         "_showControls": {
           "type":"boolean",
-          "required":false,
+          "required": false,
           "default": false,
           "title": "Show Controls",
-          "inputType": { "type": "Boolean", "options": [false, true]},
+          "inputType": "Checkbox",
           "validators": [],
           "help": "Displays the icon controls on the Component."
         },
         "_autoplay": {
           "type":"boolean",
-          "required":false,
+          "required": false,
           "default": true,
           "title": "Autoplay",
-          "inputType": { "type": "Boolean", "options": [false, true]},
+          "inputType": "Checkbox",
           "validators": [],
           "help": "Autoplays the audio when in view."
         },
         "_autoPlayOnce": {
           "type":"boolean",
-          "required":false,
+          "required": false,
           "default": true,
           "title": "Autoplay Only Once Enabled",
-          "inputType": { "type": "Boolean", "options": [false, true]},
+          "inputType": "Checkbox",
           "validators": [],
           "help": "Only autoplays the audio once when in view."
         },
         "_channel": {
           "type":"number",
-          "required":true,
+          "required": true,
           "default":0,
           "title": "Channel",
           "inputType":"Number",
