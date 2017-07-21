@@ -21,26 +21,26 @@
       "translatable": true
     },
     "_isVisibleBeforeCompletion": {
-      "type":"boolean",
-      "required":true,
+      "type": "boolean",
+      "required": true,
       "default": true,
       "title": "Show before assessment completion",
-      "inputType": {"type": "Boolean", "options": [true, false]},
+      "inputType": "Checkbox",
       "validators": [],
-      "help": "If set to 'false', this will be hidden until the assessment is completed."
+      "help": "Controls whether this component will be visible or hidden prior to the assessment having been completed."
     },
     "_assessmentId": {
       "type": "string",
       "required": true,
       "default": "",
-      "title": "Assessment",
+      "title": "Assessment Name",
       "inputType": "Text",
-      "validators": ["required"],
-      "help": "This is the unique name of the assessment for which results should be displayed"
+      "validators": [],
+      "help": "This is the unique name of the assessment for which results should be displayed. If you only have one assessment you can leave this blank."
     },
     "_retry": {
-      "type":"object",
-      "required":true,
+      "type": "object",
+      "required": true,
       "title": "",
       "properties":{
         "button": {
@@ -50,7 +50,8 @@
           "title": "Retry Button Text",
           "inputType": "Text",
           "validators": [],
-          "translatable": true
+          "translatable": true,
+          "help": "Text that appears on the retry button."
         },
         "feedback": {
           "type": "string",
@@ -85,7 +86,7 @@
           "title": "Audio Enabled",
           "inputType": { "type": "Boolean", "options": [false, true]},
           "validators": [],
-          "help": "Enables Audio on the Component"
+          "help": "Enables Audio on the Component."
         },
         "_showControls": {
           "type":"boolean",
@@ -94,7 +95,7 @@
           "title": "Show Controls",
           "inputType": { "type": "Boolean", "options": [false, true]},
           "validators": [],
-          "help": "Displays the icon controls on the Component"
+          "help": "Displays the icon controls on the Component."
         },
         "_autoplay": {
           "type":"boolean",
@@ -103,7 +104,7 @@
           "title": "Autoplay",
           "inputType": { "type": "Boolean", "options": [false, true]},
           "validators": [],
-          "help": "Autoplays the audio when in view"
+          "help": "Autoplays the audio when in view."
         },
         "_autoPlayOnce": {
           "type":"boolean",
@@ -112,7 +113,7 @@
           "title": "Autoplay Only Once Enabled",
           "inputType": { "type": "Boolean", "options": [false, true]},
           "validators": [],
-          "help": "Only autoplays the audio once when in view"
+          "help": "Only autoplays the audio once when in view."
         },
         "_channel": {
           "type":"number",
@@ -121,7 +122,7 @@
           "title": "Channel",
           "inputType":"Number",
           "validators": ["required", "number"],
-          "help": "Set value to 0 to play the audio clip on the default channel"
+          "help": "Set value to 0 to play the audio clip on the default channel."
         },
         "_location": {
           "type": "string",
@@ -130,7 +131,7 @@
           "title": "Location",
           "inputType": "Text",
           "validators": [],
-          "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right"
+          "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right."
         },
         "_media": {
           "type": "object",
@@ -143,7 +144,7 @@
               "title": "Audio File",
               "inputType": "Asset:audio",
               "validators": [],
-              "help": "Audio for when the assessment hasn't been completed"
+              "help": "Audio for when the assessment hasn't been completed."
             }
           }
         }
@@ -158,12 +159,12 @@
         "required":true,
         "properties":{
           "_score": {
-            "type":"number",
-            "required":false,
+            "type": "number",
+            "required": false,
             "title": "Score",
             "inputType": "Number",
             "validators": ["number"],
-            "help": "Enter a value representing the raw score or percentage for the start of the range"
+            "help": "Enter a value representing the raw score or percentage for the start of the range."
           },
           "feedback": {
             "type": "string",
@@ -171,15 +172,17 @@
             "default": "",
             "inputType": "Text",
             "validators": [],
-            "translatable": true
+            "translatable": true,
+            "help": "This text will be displayed to the learner when the learner's score falls within this band's range."
           },
           "_allowRetry": {
             "type":"boolean",
-            "required":true,
+            "required": true,
             "default": true,
             "title": "Allow Retry",
-            "inputType": {"type": "Boolean", "options": [true, false]},
-            "validators": []
+            "inputType": "Checkbox",
+            "validators": [],
+            "help": "Determines whether the learner will be allowed to re-attempt the assessment. If not set, the learner will not be allowed to retry the assessment regardless of any remaining attempts."
           },
           "_audio": {
             "type": "object",
@@ -192,7 +195,7 @@
                 "default": "",
                 "inputType": "Asset:audio",
                 "validators": [],
-                "help": "Optional audio which will be played with this bands feedback text"
+                "help": "Optional audio which will be played with this bands feedback text."
               }
             }
           }
