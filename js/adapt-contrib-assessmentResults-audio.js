@@ -183,7 +183,9 @@ define([
                 }
 
                 if (this._isVisibleTop || this._isVisibleBottom) {
-                    this.setCompletionStatus();
+                    if(!this.model.get('_requireAssessmentPassed')) {
+                      this.setCompletionStatus();
+                    }
 
                     ///// Audio /////
                     if (this.audioIsEnabled && this.canAutoplay) {
@@ -258,6 +260,11 @@ define([
             ///// End of Audio /////
 
             this.model.set("body", this.model.get("_completionBody"));
+
+            // Set completion if assessment is passed
+            if(state.isPass && this.model.get('_requireAssessmentPassed')) {
+              this.setCompletionStatus();
+            }
         },
 
         /**
