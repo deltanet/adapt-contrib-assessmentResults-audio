@@ -38,6 +38,15 @@
       "validators": [],
       "help": "This is the unique name of the assessment for which results should be displayed. If you only have one assessment you can leave this blank."
     },
+    "_requireAssessmentPassed": {
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "title": "Completion Only On Passed",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "Controls whether this component is only set to complete if the assessment is passed."
+    },
     "_retry": {
       "type": "object",
       "required": true,
