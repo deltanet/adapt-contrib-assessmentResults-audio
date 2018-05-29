@@ -184,6 +184,15 @@
             "translatable": true,
             "help": "This text will be displayed to the learner when the learner's score falls within this band's range."
           },
+          "instruction": {
+            "type": "string",
+            "required": false,
+            "default": "",
+            "inputType": "Text",
+            "validators": [],
+            "help": "This is the instruction text",
+            "translatable": true
+          },
           "_allowRetry": {
             "type":"boolean",
             "required": true,

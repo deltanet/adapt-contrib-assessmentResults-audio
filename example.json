@@ -33,6 +33,7 @@
       {
         "_score": 0,
         "feedback": "Your score was below 25%.",
+        "instruction": "",
         "_allowRetry": true,
         "_audio": {
           "src": "course/en/audio/***.mp3"
@@ -41,6 +42,7 @@
       {
         "_score": 25,
         "feedback": "Your score was below 50%.",
+        "instruction": "",
         "_allowRetry": true,
         "_audio": {
           "src": "course/en/audio/***.mp3"
@@ -49,6 +51,7 @@
       {
         "_score": 50,
         "feedback": "Good effort, but your score was under 75%.",
+        "instruction": "",
         "_allowRetry": true,
         "_audio": {
           "src": "course/en/audio/***.mp3"
@@ -57,15 +60,13 @@
       {
         "_score": 75,
         "feedback": "Great work. You passed your assessment with {{{scoreAsPercent}}}%.",
+        "instruction": "",
         "_allowRetry": false,
         "_audio": {
           "src": "course/en/audio/***.mp3"
         }
       }
-    ],
-    "_pageLevelProgress": {
-      "_isEnabled": true
-    }
+    ]
   },
 
 /*

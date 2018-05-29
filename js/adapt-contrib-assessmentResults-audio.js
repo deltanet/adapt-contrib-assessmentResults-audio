@@ -264,6 +264,8 @@ define([
 
             this.model.set("body", this.model.get("_completionBody"));
 
+            this.model.set("instruction", state.feedbackBand.instruction);
+
             // Set completion if assessment is passed
             if(state.isPass && this.model.get('_requireAssessmentPassed')) {
               this.model.set('_isComplete', true);

@@ -26,8 +26,7 @@ The attributes listed below are used in *components.json* to configure **Assessm
 
 **_layout** (string): This defines the horizontal position of the component in the block. Values can be `full`, `left` or `right`.  
 
-**instruction** (string): This optional text appears above the component. It is frequently used to
-guide the learner’s interaction with the component.  
+**instruction** (string): This optional text appears above the component. It is frequently used to guide the learner’s interaction with the component.  
 
 **_assessmentId** (string): This value must match the [`_id` of the assessment](https://github.com/adaptlearning/adapt-contrib-assessment#attributes) for which results should be displayed.  
 
@@ -43,11 +42,13 @@ guide the learner’s interaction with the component.
 
 **_completionBody** (string): This text overwrites the standard **body** attribute upon completion of the assessment. It may make use of the following variables: `{{attemptsSpent}}`, `{{attempts}}`, `{{attemptsLeft}}`, `{{score}}`, `{{scoreAsPercent}}` and `{{maxScore}}`. The variable `{{{feedback}}}`, representing the feedback assigned to the appropriate band, is also allowed.  
 
-**_bands** (object array): Multiple items may be created. Each item represents the feedback and opportunity to retry for the appropriate range of scores. **_bands** contains values for **_score**, **feedback**, **_allowRetry** and **_classes**.
+**_bands** (object array): Multiple items may be created. Each item represents the feedback and opportunity to retry for the appropriate range of scores. **_bands** contains values for **_score**, **feedback**, **instruction**, **_allowRetry** and **_classes**.
 
 >**_score** (number):  This numeric value represents the raw score or percentile (as determined by the configuration of [adapt-contrib-assessment](https://github.com/adaptlearning/adapt-contrib-assessment)) that indicates the low end or start of the range. The range continues to the next highest **_score** of another band.
 
->**feedback** (string): This text will be displayed to the learner when the learner's score falls within this band's range. It replaces the `{{{feedback}}}` variable when the variable is used within **_completionBody**.
+>**feedback** (string): This text will be displayed to the learner when the learner's score falls within this band's range. It replaces the `{{{feedback}}}` variable when the variable is used within **_completionBody**.  
+
+>**instruction** (string): This optional text appears below the feedback. It is frequently used to guide the learner’s interaction with the component.  
 
 >**_allowRetry** (boolean): Determines whether the learner will be allowed to reattempt the assessment. If the value is `false`, the learner will not be allowed to retry the assessment regardless of any remaining attempts.  
 
@@ -71,7 +72,7 @@ For a guide on the difference between using two curly braces and three curly bra
 No known limitations.  
 
 ----------------------------
-**Version number:**  2.2.1  
+**Version number:**  2.3.0  
 **Framework versions:** 2.1+  
 **Author / maintainer:** DeltaNet, forked from [adapt-contrib-assessmentResults](https://github.com/adaptlearning/adapt-contrib-assessmentResults)    
 **Accessibility support:** WAI AA   
