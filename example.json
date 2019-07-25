@@ -1,4 +1,4 @@
-//component.json
+//components.json
 {
     "_id":"c-130",
     "_parentId":"b-31",
@@ -6,16 +6,19 @@
     "_component":"assessmentResultsAudio",
     "_classes":"",
     "_layout":"full",
+    "_resetType": "inherit",
     "title":"Results",
     "displayTitle":"Results",
     "body":"This component you're reading is a results component.",
     "instruction":"",
     "_isVisibleBeforeCompletion": true,
+    "_setCompletionOn": "inview",
     "_assessmentId": "Assessment 1",
     "_requireAssessmentPassed": false,
     "_retry": {
-      "button": "Retry Assessment",
-      "feedback": "Why not have another try? You have used {{attemptsSpent}} of {{attempts}} attempt(s), which means you have {{attemptsLeft}} attempt(s) remaining."
+        "button": "Retry Assessment",
+        "feedback": "Why not have another try? You have used {{attemptsSpent}} of {{attempts}} attempt(s), which means you have {{attemptsLeft}} attempt(s) remaining.",
+        "_routeToAssessment": true
     },
     "_completionBody" : "This component you're reading is a results component.<br>You have finished the assessment.<br>You scored {{{score}}} out of {{{maxScore}}}. {{{feedback}}}",
     "_audioAssessment": {
@@ -64,10 +67,11 @@
         "_allowRetry": false,
         "_audio": {
           "src": "course/en/audio/***.mp3"
-        }
+        },
+        "_classes": "high-score"
       }
     ]
-  },
+}
 
 /*
 

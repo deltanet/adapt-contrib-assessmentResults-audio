@@ -1,7 +1,8 @@
 define([
     'core/js/adapt',
-    'core/js/views/componentView'
-], function(Adapt, ComponentView) {
+    './assessmentResultsModel',
+    './assessmentResultsView'
+], function(Adapt, AssessmentResultsModel, AssessmentResultsView) {
 
     var AssessmentResultsAudio = ComponentView.extend({
 
