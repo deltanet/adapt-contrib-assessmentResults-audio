@@ -43,7 +43,7 @@
       "type": "string",
       "required": false,
       "default": "inview",
-      "title": "Set completion on:",
+      "title": "Set completion on: ",
       "enum": ["inview", "pass"],
       "inputType": {
         "type": "Select",
@@ -56,7 +56,7 @@
       "type": "string",
       "required": false,
       "default": "inherit",
-      "title": "Reset type:",
+      "title": "Reset type: ",
       "enum": ["inherit", "hard", "soft"],
       "inputType": {
         "type": "Select",
@@ -130,11 +130,11 @@
       "translatable": true
     },
     "_audioAssessment": {
-      "type":"object",
+      "type": "object",
       "required":false,
       "properties":{
         "_isEnabled": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": false,
           "title": "Audio Is Enabled",
@@ -143,7 +143,7 @@
           "help": "Enables Audio on the Component."
         },
         "_showControls": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": false,
           "title": "Show Controls",
@@ -152,7 +152,7 @@
           "help": "Displays the icon controls on the Component."
         },
         "_autoplay": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": true,
           "title": "Autoplay",
@@ -161,7 +161,7 @@
           "help": "Autoplays the audio when in view."
         },
         "_autoPlayOnce": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": true,
           "title": "Autoplay Only Once Enabled",
@@ -170,11 +170,11 @@
           "help": "Only autoplays the audio once when in view."
         },
         "_channel": {
-          "type":"number",
+          "type": "number",
           "required": true,
           "default":0,
           "title": "Channel",
-          "inputType":"Number",
+          "inputType": "Number",
           "validators": ["required", "number"],
           "help": "Set value to 0 to play the audio clip on the default channel."
         },

@@ -32,8 +32,6 @@ The attributes listed below are used in *components.json* to configure **Assessm
 
 **_isVisibleBeforeCompletion** (boolean): Determines whether this component will be visible as the learner enters the assessment article or if it will be displayed only after the learner completes all question components. Acceptable values are `true` or `false`. The default is `false`.  
 
-**_requireAssessmentPassed** (boolean): Determines whether this component is only set to complete if the assessment is passed. Acceptable values are `true` or `false`. The default is `false`.   
-
 **_setCompletionOn** (string): Can be set to `"inview"` or `"pass"`. A a setting of `"inview"` will cause the component to be marked as completed when it has been viewed regardless of whether or not the assessment was passed, whereas a setting of `"pass"` will cause the component to be set to completed when this component has been viewed **and** the assessment has been passed. This setting can be very useful if you have further content on the page that's hidden by trickle which you don't want the user to be able to access until they have passed the assessment. Default is `"inview"`.
 
 **_resetType** (string): Valid values are: `"hard"`, `"soft"` and `"inherit"`. Controls whether this component does a 'soft' or 'hard' reset when the corresponding assessment is reset. A 'soft' reset will reset everything except component completion; a 'hard' reset will reset component completion as well, requiring the user to complete this component again. If you want this component to have the same reset behaviour as the corresponding assessment you can leave this property out - or set it to 'inherit'.
@@ -78,8 +76,8 @@ For a guide on the difference between using two curly braces and three curly bra
 No known limitations.  
 
 ----------------------------
-**Version number:**  2.3.1  
-**Framework versions:** 2.1+  
+**Version number:**  3.0.0  
+**Framework versions:** 3.3+  
 **Author / maintainer:** DeltaNet, forked from [adapt-contrib-assessmentResults](https://github.com/adaptlearning/adapt-contrib-assessmentResults)    
 **Accessibility support:** WAI AA   
 **RTL support:** yes  
