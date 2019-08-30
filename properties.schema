@@ -1,9 +1,19 @@
 {
-  "type":"object",
+  "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
-  "properties":{
+  "globals": {
+    "ariaRegion": {
+      "type": "string",
+      "required": true,
+      "default": "Assessment results.",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    }
+  },
+  "properties": {
     "_supportedLayout": {
       "type": "string",
       "required": true,
@@ -29,6 +39,32 @@
       "validators": [],
       "help": "Controls whether this component will be visible or hidden prior to the assessment having been completed."
     },
+    "_setCompletionOn": {
+      "type": "string",
+      "required": false,
+      "default": "inview",
+      "title": "Set completion on: ",
+      "enum": ["inview", "pass"],
+      "inputType": {
+        "type": "Select",
+        "options": ["inview", "pass"]
+      },
+      "validators": [],
+      "help": "Set to 'pass' to have the component mark as completed only if the learner passed the associated assessment."
+    },
+    "_resetType": {
+      "type": "string",
+      "required": false,
+      "default": "inherit",
+      "title": "Reset type: ",
+      "enum": ["inherit", "hard", "soft"],
+      "inputType": {
+        "type": "Select",
+        "options": ["inherit", "hard", "soft"]
+      },
+      "validators": [],
+      "help": "Set to 'inherit' to use the same reset type as the assessment. Set to 'hard' to have the component's completion reset when the assessment is reset, set to 'soft' if you don't want completion to be reset."
+    },
     "_assessmentId": {
       "type": "string",
       "required": true,
@@ -51,7 +87,7 @@
       "type": "object",
       "required": true,
       "title": "",
-      "properties":{
+      "properties": {
         "button": {
           "type": "string",
           "required": false,
@@ -71,6 +107,15 @@
           "validators": [],
           "help": "This text is displayed only when more attempts remain. You can use the following variables: {{attemptsSpent}}, {{attempts}}, {{attemptsLeft}}, {{{score}}}, {{{maxScore}}}.",
           "translatable": true
+        },
+        "_routeToAssessment": {
+          "type": "boolean",
+          "required": true,
+          "default": false,
+          "title": "Redirect to assessment on retry",
+          "inputType": "Checkbox",
+          "validators": [],
+          "help": "When enabled, this will take the user back to the assessment when the \"Retry Assessment\" button is clicked."
         }
       }
     },
@@ -85,11 +130,11 @@
       "translatable": true
     },
     "_audioAssessment": {
-      "type":"object",
+      "type": "object",
       "required":false,
       "properties":{
         "_isEnabled": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": false,
           "title": "Audio Is Enabled",
@@ -98,7 +143,7 @@
           "help": "Enables Audio on the Component."
         },
         "_showControls": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": false,
           "title": "Show Controls",
@@ -107,7 +152,7 @@
           "help": "Displays the icon controls on the Component."
         },
         "_autoplay": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": true,
           "title": "Autoplay",
@@ -116,7 +161,7 @@
           "help": "Autoplays the audio when in view."
         },
         "_autoPlayOnce": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": true,
           "title": "Autoplay Only Once Enabled",
@@ -125,11 +170,11 @@
           "help": "Only autoplays the audio once when in view."
         },
         "_channel": {
-          "type":"number",
+          "type": "number",
           "required": true,
           "default":0,
           "title": "Channel",
-          "inputType":"Number",
+          "inputType": "Number",
           "validators": ["required", "number"],
           "help": "Set value to 0 to play the audio clip on the default channel."
         },
@@ -160,13 +205,13 @@
       }
     },
     "_bands": {
-      "type":"array",
-      "required":true,
+      "type": "array",
+      "required": true,
       "title": "Bands",
       "items": {
-        "type":"object",
-        "required":true,
-        "properties":{
+        "type": "object",
+        "required": true,
+        "properties": {
           "_score": {
             "type": "number",
             "required": false,
@@ -194,7 +239,7 @@
             "translatable": true
           },
           "_allowRetry": {
-            "type":"boolean",
+            "type": "boolean",
             "required": true,
             "default": true,
             "title": "Allow Retry",
