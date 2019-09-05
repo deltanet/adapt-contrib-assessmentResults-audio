@@ -34,7 +34,7 @@ define([
             this.setupInviewCompletion('.component-inner', this.model.checkCompletion.bind(this.model));
 
             // Audio
-            if (!this.model.get('_audioAssessment')._isEnabled) return;
+            if (!Adapt.audio || !this.model.get('_audioAssessment')._isEnabled) return;
             // Hide controls if set in JSON or if audio is turned off
             if (this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
                 this.$('.audio-inner button').hide();
