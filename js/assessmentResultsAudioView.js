@@ -40,12 +40,6 @@ define([
       if (this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
           this.$('.audio__inner button').hide();
       }
-      this.$el.on("onscreen", _.bind(this.onscreen, this));
-      this.listenToOnce(Adapt, 'remove', this.removeListeners);
-    }
-
-    removeListeners() {
-      this.$el.off('onscreen');
     }
 
     setupAudio() {
@@ -76,13 +70,11 @@ define([
       if (this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
           this.$('.audio__inner button').hide();
       }
-      //this.$el.on("onscreen", _.bind(this.onscreen, this));
-      this.$('.component__inner').on('inview.componentView', this.onscreen.bind(this));
     }
 
-    onscreen(event, visible, visiblePartX, visiblePartY) {
+    onInview(event, visible, visiblePartX, visiblePartY) {
       if (!visible) return;
-
+//debugger;
       switch (visiblePartY) {
         case 'top':
           this.hasSeenTop = true;
@@ -111,6 +103,9 @@ define([
         // Set to true to stop onscreen looping
         this.onscreenTriggered = true;
       }
+
+      super.onInview(event, visible, visiblePartX, visiblePartY);
+
     }
 
     toggleAudio(event) {
