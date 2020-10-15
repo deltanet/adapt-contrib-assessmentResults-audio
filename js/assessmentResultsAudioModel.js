@@ -3,10 +3,11 @@ define([
   'core/js/models/componentModel'
 ], function(Adapt, ComponentModel) {
 
-  class AssessmentResultsModel extends ComponentModel {
+  class AssessmentResultsAudioModel extends ComponentModel {
 
     init(...args) {
       this.set('originalBody', this.get('body'));// save the original body text so we can restore it when the assessment is reset
+      this.set('originalInstruction', this.get('instruction'));// save the original body text so we can restore it when the assessment is reset
 
       this.listenTo(Adapt, {
         'assessments:complete': this.onAssessmentComplete,
@@ -101,8 +102,13 @@ define([
 
       this.set({
         feedback,
-        body: this.get('_completionBody')
+        body: this.get('_completionBody'),
+        instruction: feedbackBand.instruction
       });
+
+      if (this.get('_audioAssessment')._isEnabled && feedbackBand._audio.src) {
+        this.set('audioFile', feedbackBand._audio.src);
+      }
     }
 
     setVisibility() {
@@ -161,6 +167,7 @@ define([
     reset(...args) {
       this.set({
         body: this.get('originalBody'),
+        instruction: this.get('originalInstruction'),
         state: null,
         feedback: '',
         _feedbackBand: null,
@@ -172,6 +179,6 @@ define([
     }
   }
 
-  return AssessmentResultsModel;
+  return AssessmentResultsAudioModel;
 
 });
