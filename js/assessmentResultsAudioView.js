@@ -38,7 +38,7 @@ define([
       if (!Adapt.audio || !this.model.get('_audioAssessment')._isEnabled) return;
       // Hide controls if set in JSON or if audio is turned off
       if (this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
-          this.$('.audio__inner button').hide();
+          this.$('.audio__controls').addClass('is-hidden');
       }
     }
 
@@ -68,7 +68,7 @@ define([
 
       // Hide controls if set in JSON or if audio is turned off
       if (this.model.get('_audioAssessment')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
-          this.$('.audio__inner button').hide();
+          this.$('.audio__controls').addClass('is-hidden');
       }
     }
 
