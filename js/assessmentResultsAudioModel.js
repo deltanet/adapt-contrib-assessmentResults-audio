@@ -138,7 +138,7 @@ define([
         isVisible = !this.get('_isVisible');
       }
 
-      this.set('_isVisible', isVisible, { pluginName: 'assessmentResults' });
+      this.set('_isVisible', isVisible, { pluginName: 'assessmentResultsAudio' });
     }
 
     checkCompletion() {
